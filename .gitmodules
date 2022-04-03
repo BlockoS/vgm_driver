@@ -1,0 +1,3 @@
+[submodule "extern/argparse"]
+	path = extern/argparse
+	url = git@github.com:cofyc/argparse.git
