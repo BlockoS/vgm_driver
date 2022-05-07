@@ -49,6 +49,8 @@ vgm_psg_r7      .ds 2                       ; noise enable, noise frequency
 vgm_psg_r8      .ds 1                       ; lfo frequency
 vgm_psg_r9      .ds 1                       ; lfo trigger, lfo control
 
+vgm_mem_end:
+
     .code
 ; map music
   .macro vgm_map
@@ -69,6 +71,7 @@ vgm_psg_r9      .ds 1                       ; lfo trigger, lfo control
 ; Play song
   .ifdef HUC
 _vgm_play_song.1:
+    sax
   .endif
 vgm_play_song:
     asl    A
@@ -90,6 +93,8 @@ vgm_play_song:
     cpy    #(VGM_PSG_CHAN_COUNT*6)
     bne    @l0
 
+    stz    vgm_delay
+    tai    vgm_delay, vgm_delay+1, vgm_mem_end-vgm_delay-1
     
     stw #wav, vgm_wav.ptr 
 
@@ -126,8 +131,8 @@ vgm_stop_song:
 ; Play subtrack
   .ifdef HUC
 _vgm_play_subtrack.2:
+    sxy
     ldx    <__al
-    tay
   .endif
 vgm_play_subtrack:
     vgm_map
@@ -303,7 +308,6 @@ vgm_parse_sub:
 ; Stop subtrack
   .ifdef HUC
 _vgm_stop_subtrack.1:
-    tax
   .endif
 vgm_stop_subtrack:
     php
