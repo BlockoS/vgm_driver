@@ -497,6 +497,7 @@ vgm_wav_upload:
 
     phy
 
+    lda    vgm_psg_wav_id, X
     asl    A
     tay
     lda    [vgm_wav.ptr], Y
